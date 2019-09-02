@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+const axios = require('axios')
 const Price = require('ilp-price')
 const ILDCP = require('ilp-protocol-ildcp')
 const IlpPlugin = require('ilp-plugin')
@@ -18,6 +18,7 @@ async function convert (amount, foreignAssetCode, foreignAssetScale, preferredAp
 async function getAssetDetails (plugin) {
   await plugin.connect()
   const details = await ILDCP.fetch(plugin.sendData.bind(plugin))
+  await plugin.disconnect()
   return details
 }
 
@@ -76,34 +77,37 @@ async function ilpprice (assetCode1, assetCode2) {
 }
 
 async function cryptocompare (assetCode1, assetCode2) {
-  const response = await fetch(`https://min-api.cryptocompare.com/data/price?fsym=${assetCode1}&tsyms=${assetCode2}`)
-  if (response.ok) {
-    const json = await response.json()
+  try {
+    const response = await axios.get(`https://min-api.cryptocompare.com/data/price?fsym=${assetCode1}&tsyms=${assetCode2}`, {timeout: 1000})
+    const json = response.data
     return json[assetCode2]
-  }
-  return false
+  } catch (err) {
+    return false
+  } 
 }
 
 async function bitstamp (assetCode1, assetCode2) {
-  const response = await fetch(`https://www.bitstamp.net/api/v2/ticker/${assetCode1}${assetCode2}/`)
-  if (response.ok) {
-    const json = await response.json()
+  try {
+    const response = await axios.get(`https://www.bitstamp.net/api/v2/ticker/${assetCode1}${assetCode2}/`, {timeout: 1000})
+    const json = response.data
     return json.last
+  } catch (err) {
+    return false
   }
-  return false
 }
 
 async function bitsane (assetCode1, assetCode2) {
-  const response = await fetch(`https://bitsane.com/api/public/ticker?pairs=${assetCode1}_${assetCode2}`)
-  if (response.ok) {
-    const json = await response.json()
+  try {
+    const response = await axios.get(`https://bitsane.com/api/public/ticker?pairs=${assetCode1}_${assetCode2}`, {timeout: 1000})
+    const json = response.data
     try {
       return json[`${assetCode1}_${assetCode2}`].last
     } catch (err) {
       return false
     }
+  } catch (err) {
+    return false
   }
-  return false
 }
 
 module.exports = {
