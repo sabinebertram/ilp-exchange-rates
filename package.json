@@ -1,6 +1,6 @@
 {
   "name": "ilp-exchange-rate",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sabinebertram/ilp-exchange-rates.git"
+    "url": "git+https://github.com/sabinebertram/ilp-exchange-rate.git"
   },
   "author": "Sabine Bertram",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sabinebertram/ilp-exchange-rates/issues"
+    "url": "https://github.com/sabinebertram/ilp-exchange-rate/issues"
   },
-  "homepage": "https://github.com/sabinebertram/ilp-exchange-rates#readme",
+  "homepage": "https://github.com/sabinebertram/ilp-exchange-rate#readme",
   "devDependencies": {
     "standard": "^12.0.1"
   },
